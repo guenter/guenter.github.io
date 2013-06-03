@@ -1,0 +1,22 @@
+---
+layout: post
+title: Detecting Sentiment in Tweets
+date: 2010-02-22 11:20:44.000000000 -08:00
+categories:
+- NLP
+tags:
+- twitter
+- sentiment analysis
+- Metacritic
+---
+<p>In a paper I published last year</a>, I introduced a novel algorithm for sentiment detection in movie reviews. I used data from <a href="http://metacritic.com">Metacritic</a>, which consists mostly of brief reviews (only a few sentences). In that sense, they are pretty similar to tweets. So I thought, why not try the algorithm on data from <a href="http://apiwiki.twitter.com/Streaming-API-Documentation">Twitter's streaming API</a>? The idea was to follow a developing story and graph the sentiment expressed by the tweets about it. I decided that a football game is a perfect scenario for that, as the sentiment can change from positive to negative over time (one or the other team leading). To use the streaming API, you have to chose a keyword, and it will give you all the tweets about it. On Dec. 13, 2009 the Eagles played the Giants, and I chose "Giants" as the keyword. I'm not a fan of either team, Giants just happened to be more trending than Eagles. So here are the results:</p>
+
+<p>(Giants.png missing)</p>
+
+<p>The graph is a running average of the sentiment of the tweets over time, with a window size of 999. The sentiment is generally positive (&gt; 0), probably explained by a lot of cheers ("Go Giants!" etc.). It drops towards the end of the curve, which makes sense because the Giants lost that game.</p>
+
+<p>This is just a very brief analysis and there is a lot more you can extract from the graph, e.g. match the spikes with scorings. I'll update as soon as I have more results.</p>
+
+<ul class="links">
+  <li><a href="http://ieeexplore.ieee.org/xpl/login.jsp?tp=&amp;arnumber=5277531">ICDAR'09 Paper</a></li>
+</ul>

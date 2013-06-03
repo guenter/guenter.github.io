@@ -1,0 +1,36 @@
+---
+layout: post
+title: 'Scenario: Using Machinist blueprints in Cucumber/Pickle'
+date: 2009-09-21 23:27:51.000000000 -07:00
+categories:
+- Rails
+tags:
+- Rails
+- test
+- Ruby on Rails
+- Cucumber
+- Machinist
+- Pickle
+---
+Given you have two blueprints for users:
+
+{% highlight ruby %}
+User.blueprint {}
+User.blueprint(:admin) {}
+{% endhighlight %}
+
+Then this is how you reference them from a Cucumber feature definition:
+
+{% highlight cucumber %}
+Given a user exists
+Given an admin_user exists
+{% endhighlight %}
+
+
+Took me some digging into the Pickle code to find that out.
+If you haven't checked out these amazing tools yet, here are some links:
+<ul class="links">
+	<li><a href="http://github.com/notahat/machinist">Machinist</a></li>
+	<li><a href="http://github.com/aslakhellesoy/cucumber">Cucumber</a></li>
+	<li><a href="http://github.com/ianwhite/pickle">Pickle</a></li>
+</ul>

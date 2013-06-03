@@ -1,0 +1,11 @@
+---
+layout: default
+title: Posts
+---
+
+{% for post in site.posts %}
+<div class="publication">
+  <h3><a href="{{ post.url }}">{{ post.title }}</a></h3>
+  <p class="published_at">{{ post.categories }} · {{ post.date | date_to_string }}</p>
+</div>
+{% endfor %}

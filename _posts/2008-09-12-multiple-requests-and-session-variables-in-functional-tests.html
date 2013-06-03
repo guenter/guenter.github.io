@@ -1,0 +1,35 @@
+---
+layout: post
+published: true
+title: Multiple requests and session variables in functional tests
+date: 2008-09-12 10:42:50.000000000 -07:00
+categories:
+- Rails
+tags:
+- Rails
+- test
+---
+I spent way too much time today figuring out why this doesn't work as expected:
+
+{% highlight ruby %}
+def test_something
+  get :list, nil, {:user_id => 1}
+  get :list, nil, {:user_id => 2}
+end
+{% endhighlight %}
+
+I expected the second request to have <code>session[:user_id] == 2</code>.
+
+That's not the case. Functional tests in Rails are designed to make only one request per test and thus the second assignment doesn't change the session data.
+
+To make it work as expected, split it into multiple tests:
+
+{% highlight ruby %}
+def test_something
+  get :list, nil, {:user_id => 1}
+end
+
+def test_something_else
+  get :list, nil, {:user_id => 2}
+end
+{% endhighlight %}

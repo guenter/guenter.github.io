@@ -1,0 +1,29 @@
+---
+layout: post
+published: true
+title: accepts_nested_attributes_for and attr_accessible
+date: 2010-03-19 09:48:56.000000000 -07:00
+categories:
+- Rails
+tags:
+- Ruby on Rails
+---
+In your model, if you have
+
+{% highlight ruby %}
+accepts_nested_attributes_for :attachments
+{% endhighlight %}
+
+And you limit the accessible attributes with something like
+
+{% highlight ruby %}
+attr_accessible :title, :text
+{% endhighlight %}
+
+make sure to also include the virtual attribute for the nested model to that list, like so:
+
+{% highlight ruby %}
+attr_accessible :title, :text, :attachments_attributes
+{% endhighlight %}
+
+Otherwise, your model won't accept the nested attributes.
