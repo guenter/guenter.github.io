@@ -1,10 +1,10 @@
 body {
-  font-family: 'Source Sans Pro', sans-serif;
-  color: #7F8C8D;
+  font-family: 'Roboto', sans-serif;
+  color: hsl(184, 6%, 30%);
 }
 
-h1, h2, h3, h4, h5, h6 {
-  font-weight: 500;
+h1, h2, h3, h4, h5, h6, p {
+  font-weight: 300;
 }
 
 a {
@@ -22,13 +22,18 @@ a:hover {
   margin-right: auto;
 }
 
+.publication {
+  margin-top: 30px;
+  margin-bottom: 30px;
+}
+
 .publication h3 {
-  margin-bottom: 3px;
+  margin-bottom: 4px;
 }
 
 .publication p {
-  margin-bottom: 3px;
-  margin-top: 3px;
+  margin-bottom: 4px;
+  margin-top: 4px;
 }
 
 .publication p.published_in, .publication p.published_at {
