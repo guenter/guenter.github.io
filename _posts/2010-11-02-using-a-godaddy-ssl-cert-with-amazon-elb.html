@@ -7,22 +7,37 @@ categories:
 tags: []
 ---
 I recently switched to using ELB with SSL termination and had to upload a GoDaddy server certificate to the load balancer. First, I tried uploading the certificate using the AWS command line tools like so:
-<pre>$ iam-servercertupload -b server_cert.pem -k server_cert.key -s Server-Cert-2011
+
+{% highlight bash %}
+$ iam-servercertupload -b server_cert.pem -k server_cert.key -s Server-Cert-2011
 arn:aws:iam::123456789:server-certificate/Server-Cert-2011
 $ elb-set-lb-listener-ssl-cert frontend-loadbalancer -l 443 \
   -c arn:aws:iam::123456789:server-certificate/Server-Cert-2011
-OK-Setting SSL Certificate</pre>
+OK-Setting SSL Certificate
+{% endhighlight %}
+
 Everything seemed to work on my Mac, but on the iPhone I got an ugly error that the certificate is not trusted. Using openssl I found out that some intermediate certificate must be missing:
-<pre>$ openssl s_client -showcerts -connect example.com:443
+
+{% highlight bash %}
+$ openssl s_client -showcerts -connect example.com:443
 ...
 Verify return code: 21 (unable to verify the first certificate).
-...</pre>
+...
+{% endhighlight %}
+
 The iam-servercertupload utility has a -c switch that lets you specify the certificate chain. I tried uploading the chain that we were using before with Nginx, which includes everything from the server certificate up to the root certificate, but received this error:
-<pre>400 MalformedCertificate Invalid Public Key Certificate.</pre>
+
+{% highlight bash %}
+400 MalformedCertificate Invalid Public Key Certificate.
+{% endhighlight %}
+
 I then tried removing the server cert from the chain, which produced the same error. Here is the certificate chain that worked for me. Download "gd_intermediate.crt", "gd_cross_intermediate.crt", and "valicert_class2_root.crt" <a href="https://certs.godaddy.com/anonymous/repository.seam">here</a> and concatenate them into a file in that order. Use that as your cert chain file for iam-servercertupload and you're good to go.
-<pre>$ iam-servercertupload -b server_cert.pem -c godaddy_cert_chain.pem \
+
+{% highlight bash %}
+$ iam-servercertupload -b server_cert.pem -c godaddy_cert_chain.pem \
   -k server_cert.key -s Server-Cert-2011
-arn:aws:iam::123456789:server-certificate/Server-Cert-2011</pre>
+arn:aws:iam::123456789:server-certificate/Server-Cert-2011
+{% endhighlight %}
 
 <ul class="links">
   <li><a href="http://aws.typepad.com/aws/2010/10/elastic-load-balancer-support-for-ssl-termination.html">AWS Blog SSL announcement</a></li>
